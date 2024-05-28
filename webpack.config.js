@@ -39,9 +39,9 @@ module.exports = {
           filename: 'static/images/[name].[hash:10][ext][query]'
         }
       },
-      // 字体 图表库文件
+      // 字体 图表库文件 音频视频
       {
-        test: /\.(ttf|woff2?)$/,
+        test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
         // 不转化为base64
         type: 'asset/resource',
         generator: {
