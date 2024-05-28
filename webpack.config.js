@@ -7,7 +7,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'static/js/main.js',
     // 打包前删除path目录
-    clean: true 
+    clean: true
   },
   // 加载器
   module: {
@@ -37,6 +37,15 @@ module.exports = {
         },
         generator: {
           filename: 'static/images/[name].[hash:10][ext][query]'
+        }
+      },
+      // 字体 图表库文件
+      {
+        test: /\.(ttf|woff2?)$/,
+        // 不转化为base64
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/media/[name].[hash:10][ext][query]'
         }
       }
     ]
