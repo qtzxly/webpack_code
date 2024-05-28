@@ -5,7 +5,9 @@ module.exports = {
   output: {
     // 绝对路径。 __dirname：当前文件夹路径
     path: path.resolve(__dirname, 'dist'),
-    filename: 'main.js'
+    filename: 'static/js/main.js',
+    // 打包前删除path目录
+    clean: true 
   },
   // 加载器
   module: {
@@ -32,6 +34,9 @@ module.exports = {
             // 减少请求， 体积会增大
             maxSize: 20 * 1024 // 10kb
           }
+        },
+        generator: {
+          filename: 'static/images/[name].[hash:10][ext][query]'
         }
       }
     ]
