@@ -35,45 +35,50 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/i,
-        // 执行顺序：右到左（下到上)
-        use: getStyleLoader()
-      },
-      {
-        test: /\.less$/i,
-        use: getStyleLoader('less-loader')
-      },
-      {
-        test: /\.(png|jpe?g|gif|webp|svg)$/,
-        type: 'asset',
-        parser: {
-          dataUrlCondition: {
-            // 小于 10kb 的图片转base64
-            // 减少请求， 体积会增大
-            maxSize: 20 * 1024 // 10kb
+        // 每个文件只被一个loader处理
+        oneOf: [
+          {
+            test: /\.css$/i,
+            // 执行顺序：右到左（下到上)
+            use: getStyleLoader()
+          },
+          {
+            test: /\.less$/i,
+            use: getStyleLoader('less-loader')
+          },
+          {
+            test: /\.(png|jpe?g|gif|webp|svg)$/,
+            type: 'asset',
+            parser: {
+              dataUrlCondition: {
+                // 小于 10kb 的图片转base64
+                // 减少请求， 体积会增大
+                maxSize: 20 * 1024 // 10kb
+              }
+            },
+            generator: {
+              filename: 'static/images/[name].[hash:10][ext][query]'
+            }
+          },
+          // 字体 图表库文件 音频视频
+          {
+            test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
+            // 不转化为base64
+            type: 'asset/resource',
+            generator: {
+              filename: 'static/media/[name].[hash:10][ext][query]'
+            }
+          },
+          {
+            test: /\.m?js$/,
+            // 排除
+            exclude: /node_modules/,
+            loader: 'babel-loader'
+            // options: {
+            //   presets: ['@babel/preset-env']
+            // }
           }
-        },
-        generator: {
-          filename: 'static/images/[name].[hash:10][ext][query]'
-        }
-      },
-      // 字体 图表库文件 音频视频
-      {
-        test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
-        // 不转化为base64
-        type: 'asset/resource',
-        generator: {
-          filename: 'static/media/[name].[hash:10][ext][query]'
-        }
-      },
-      {
-        test: /\.m?js$/,
-        // 排除
-        exclude: /node_modules/,
-        loader: 'babel-loader'
-        // options: {
-        //   presets: ['@babel/preset-env']
-        // }
+        ]
       }
     ]
   },
