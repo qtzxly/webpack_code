@@ -1,6 +1,7 @@
 const path = require('path')
 const ESLintPlugin = require('eslint-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
   entry: './src/main.js',
@@ -16,14 +17,49 @@ module.exports = {
     rules: [
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [
+          // 提取成单独文件 替换style-loader
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  [
+                    'postcss-preset-env',
+                    {
+                      // 选项
+                    }
+                  ]
+                ]
+              }
+            }
+          }
+        ]
       },
       {
         test: /\.less$/i,
         use: [
           // compiles Less to CSS
-          'style-loader',
+          MiniCssExtractPlugin.loader,
           'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  [
+                    'postcss-preset-env',
+                    {
+                      // 选项
+                    }
+                  ]
+                ]
+              }
+            }
+          },
           'less-loader'
         ]
       },
@@ -69,6 +105,9 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/index.html')
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'static/css/main.css'
     })
   ],
   devServer: {
