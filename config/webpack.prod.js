@@ -2,6 +2,25 @@ const path = require('path')
 const ESLintPlugin = require('eslint-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+
+function getStyleLoader(pre = null) {
+  return [
+    // 提取成单独文件 替换style-loader
+    MiniCssExtractPlugin.loader,
+    'css-loader',
+
+    {
+      loader: 'postcss-loader',
+      options: {
+        postcssOptions: {
+          plugins: ['postcss-preset-env']
+        }
+      }
+    },
+    pre
+  ]
+}
 
 module.exports = {
   entry: './src/main.js',
@@ -17,51 +36,12 @@ module.exports = {
     rules: [
       {
         test: /\.css$/i,
-        use: [
-          // 提取成单独文件 替换style-loader
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: [
-                  [
-                    'postcss-preset-env',
-                    {
-                      // 选项
-                    }
-                  ]
-                ]
-              }
-            }
-          }
-        ]
+        // 执行顺序：右到左（下到上)
+        use: getStyleLoader()
       },
       {
         test: /\.less$/i,
-        use: [
-          // compiles Less to CSS
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: [
-                  [
-                    'postcss-preset-env',
-                    {
-                      // 选项
-                    }
-                  ]
-                ]
-              }
-            }
-          },
-          'less-loader'
-        ]
+        use: getStyleLoader('less-loader')
       },
       {
         test: /\.(png|jpe?g|gif|webp|svg)$/,
@@ -108,7 +88,8 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
       filename: 'static/css/main.css'
-    })
+    }),
+    new CssMinimizerPlugin()
   ],
   devServer: {
     host: 'localhost',
