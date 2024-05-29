@@ -60,8 +60,10 @@ module.exports = {
           },
           {
             test: /\.m?js$/,
-            // 排除
-            exclude: /node_modules/,
+            // 排除 二选一
+            // exclude: /node_modules/,
+            include: path.resolve(__dirname, '../src'),
+
             loader: 'babel-loader'
             // options: {
             //   presets: ['@babel/preset-env']
@@ -75,7 +77,8 @@ module.exports = {
   plugins: [
     new ESLintPlugin({
       // 检测哪些文件
-      context: path.resolve(__dirname, '../src')
+      context: path.resolve(__dirname, '../src'),
+      exclude: 'node_modules'
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/index.html')
