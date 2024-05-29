@@ -1,5 +1,6 @@
 const path = require('path')
 const ESLintPlugin = require('eslint-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: './src/main.js',
@@ -65,7 +66,16 @@ module.exports = {
     new ESLintPlugin({
       // 检测哪些文件
       context: path.resolve(__dirname, 'src')
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'public/index.html')
     })
   ],
+  devServer: {
+    host: 'localhost',
+    // compress: true, //对devServer 所有服务启用 gzip 压缩
+    port: 3000,
+    open: true
+  },
   mode: 'development'
 }
