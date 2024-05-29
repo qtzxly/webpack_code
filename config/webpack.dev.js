@@ -6,7 +6,8 @@ module.exports = {
   entry: './src/main.js',
   output: {
     // 绝对路径。 __dirname：当前文件夹路径
-    path: path.resolve(__dirname, 'dist'),
+    // 开发模式不需要输出
+    path: undefined,
     filename: 'static/js/main.js',
     // 打包前删除path目录
     clean: true
@@ -65,10 +66,10 @@ module.exports = {
   plugins: [
     new ESLintPlugin({
       // 检测哪些文件
-      context: path.resolve(__dirname, 'src')
+      context: path.resolve(__dirname, '../src')
     }),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'public/index.html')
+      template: path.resolve(__dirname, '../public/index.html')
     })
   ],
   devServer: {
