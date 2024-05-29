@@ -95,7 +95,8 @@ module.exports = {
     host: 'localhost',
     // compress: true, //对devServer 所有服务启用 gzip 压缩
     port: 3000,
-    open: true
+    open: true,
+    hot: true
   },
   mode: 'production'
   // devtool: 'source-map'
