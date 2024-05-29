@@ -98,4 +98,5 @@ module.exports = {
     open: true
   },
   mode: 'production'
+  // devtool: 'source-map'
 }
