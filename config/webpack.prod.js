@@ -1,7 +1,7 @@
 const os = require('os')
 
 const path = require('path')
-const ESLintPlugin = require('eslint-webpack-plugin')
+// const ESLintPlugin = require('eslint-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
@@ -41,6 +41,7 @@ module.exports = {
     path: path.resolve(__dirname, '../dist'),
     // filename: 'static/js/main.js',
     filename: 'static/js/[name].js',
+    chunkFilename: 'static/js/[name].js',
     // 打包前删除path目录
     clean: true
   },
@@ -114,11 +115,11 @@ module.exports = {
   },
   // 插件
   plugins: [
-    new ESLintPlugin({
-      // 检测哪些文件
-      context: path.resolve(__dirname, '../src'),
-      threads
-    }),
+    // new ESLintPlugin({
+    //   // 检测哪些文件
+    //   context: path.resolve(__dirname, '../src'),
+    //   threads
+    // }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/index.html')
     }),

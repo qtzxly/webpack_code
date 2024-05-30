@@ -10,6 +10,7 @@ module.exports = {
     // 开发模式不需要输出
     path: undefined,
     filename: 'static/js/main.js',
+    chunkFilename: 'static/js/[name].js',
     // 打包前删除path目录
     clean: true
   },

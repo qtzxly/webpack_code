@@ -29,7 +29,7 @@ document.getElementById('btn').onclick = function () {
   //     console.log('log--->no')
   //   })
 
-  import('./js/math')
+  import(/* webpackChunkName: "math"  */ './js/math')
     .then(({ mul }) => {
       console.log('log--->ok', mul(3, 5))
     })
