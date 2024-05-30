@@ -1,8 +1,13 @@
+const os = require('os')
+
 const path = require('path')
 const ESLintPlugin = require('eslint-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const TerserWebpackPlugin = require('terser-webpack-plugin')
+
+const threads = os.cpus().length
 
 function getStyleLoader(pre = null) {
   return [
@@ -73,7 +78,21 @@ module.exports = {
             test: /\.m?js$/,
             // 排除
             exclude: /node_modules/,
-            loader: 'babel-loader'
+            use: [
+              {
+                loader: 'thread-loader', // 开启多进程
+                options: {
+                  works: threads // 数量
+                }
+              },
+              {
+                loader: 'babel-loader'
+                // cacheDirectory: true, // 缓存
+                // cacheCompression: false // 关闭缓存压缩
+              }
+            ]
+
+            // loader: 'babel-loader'
             // options: {
             //   presets: ['@babel/preset-env']
             // }
@@ -86,16 +105,28 @@ module.exports = {
   plugins: [
     new ESLintPlugin({
       // 检测哪些文件
-      context: path.resolve(__dirname, '../src')
+      context: path.resolve(__dirname, '../src'),
+      threads
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/index.html')
     }),
     new MiniCssExtractPlugin({
       filename: 'static/css/main.css'
-    }),
-    new CssMinimizerPlugin()
+    })
+    // new CssMinimizerPlugin(),
+    // new TerserWebpackPlugin({
+    //   parallel: threads
+    // })
   ],
+  optimization: {
+    minimizer: [
+      new CssMinimizerPlugin(),
+      new TerserWebpackPlugin({
+        parallel: threads
+      })
+    ]
+  },
   devServer: {
     host: 'localhost',
     // compress: true, //对devServer 所有服务启用 gzip 压缩
