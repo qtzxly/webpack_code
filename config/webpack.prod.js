@@ -40,8 +40,11 @@ module.exports = {
     // 绝对路径。 __dirname：当前文件夹路径
     path: path.resolve(__dirname, '../dist'),
     // filename: 'static/js/main.js',
+    // 入口文件输出的文件名
     filename: 'static/js/[name].js',
-    chunkFilename: 'static/js/[name].js',
+    // 其他文件输出的文件名
+    chunkFilename: 'static/js/[name].chunk.js',
+    assetModuleFilename: 'static/media/[name].[hash:10][ext][query]',
     // 打包前删除path目录
     clean: true
   },
@@ -69,19 +72,19 @@ module.exports = {
                 // 减少请求， 体积会增大
                 maxSize: 20 * 1024 // 10kb
               }
-            },
-            generator: {
-              filename: 'static/images/[name].[hash:10][ext][query]'
             }
+            // generator: {
+            //   filename: 'static/images/[name].[hash:10][ext][query]'
+            // }
           },
           // 字体 图表库文件 音频视频
           {
             test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
             // 不转化为base64
-            type: 'asset/resource',
-            generator: {
-              filename: 'static/media/[name].[hash:10][ext][query]'
-            }
+            type: 'asset/resource'
+            // generator: {
+            //   filename: 'static/media/[name].[hash:10][ext][query]'
+            // }
           },
           {
             test: /\.m?js$/,
@@ -124,7 +127,8 @@ module.exports = {
       template: path.resolve(__dirname, '../public/index.html')
     }),
     new MiniCssExtractPlugin({
-      filename: 'static/css/main.css'
+      filename: 'static/css/[name].css',
+      chunkFilename: 'static/css/[name].chunk.css'
     })
     // new CssMinimizerPlugin(),
     // new TerserWebpackPlugin({
