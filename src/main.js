@@ -19,3 +19,13 @@ if (module.hot) {
     console.log('sum-----')
   })
 }
+
+document.getElementById('btn').onclick = function () {
+  import('./js/count2')
+    .then((res) => {
+      console.log('log--->ok', res.default(3, 5))
+    })
+    .catch((err) => {
+      console.log('log--->no')
+    })
+}

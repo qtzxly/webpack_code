@@ -1,5 +1,5 @@
 const path = require('path')
-const ESLintPlugin = require('eslint-webpack-plugin')
+// const ESLintPlugin = require('eslint-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
@@ -68,7 +68,7 @@ module.exports = {
             options: {
               // presets: ['@babel/preset-env']
               cacheDirectory: true, // 缓存
-              cacheCompression: false, // 关闭缓存压缩
+              cacheCompression: false // 关闭缓存压缩
             }
           }
         ]
@@ -77,13 +77,13 @@ module.exports = {
   },
   // 插件
   plugins: [
-    new ESLintPlugin({
-      // 检测哪些文件
-      context: path.resolve(__dirname, '../src'),
-      exclude: 'node_modules',
-      cache:true,
-      cacheLocation:path.resolve(__dirname,'../node_modules/.cache/eslint-cache')
-    }),
+    // new ESLintPlugin({
+    //   // 检测哪些文件
+    //   context: path.resolve(__dirname, '../src'),
+    //   exclude: 'node_modules',
+    //   cache:true,
+    //   cacheLocation:path.resolve(__dirname,'../node_modules/.cache/eslint-cache')
+    // }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/index.html')
     }),
