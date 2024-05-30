@@ -86,9 +86,12 @@ module.exports = {
                 }
               },
               {
-                loader: 'babel-loader'
-                // cacheDirectory: true, // 缓存
-                // cacheCompression: false // 关闭缓存压缩
+                loader: 'babel-loader',
+                options: {
+                  // cacheDirectory: true, // 缓存
+                  // cacheCompression: false // 关闭缓存压缩
+                  plugins: ['@babel/plugin-transform-runtime']
+                }
               }
             ]
 
