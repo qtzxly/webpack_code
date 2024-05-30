@@ -161,13 +161,13 @@ module.exports = {
         //   priority: -10, // 权重（越大越高）
         //   reuseExistingChunk: true, // 如果当前 chunk 包含已从主 bundle 中拆分出的模块，则它将被重用，而不是生成新的模块
         // },
-        default: {
-          // 其他没有写的配置会使用上面的默认值
-          minSize: 0, // 我们定义的文件体积太小了，所以要改打包的最小文件体积 ，0是故意写的最小
-          minChunks: 2,
-          priority: -20,
-          reuseExistingChunk: true
-        }
+        // default: {
+        //   // 其他没有写的配置会使用上面的默认值
+        //   minSize: 0, // 我们定义的文件体积太小了，所以要改打包的最小文件体积 ，0是故意写的最小
+        //   minChunks: 2,
+        //   priority: -20,
+        //   reuseExistingChunk: true
+        // }
       }
     },
     minimizer: [

@@ -21,9 +21,17 @@ if (module.hot) {
 }
 
 document.getElementById('btn').onclick = function () {
-  import('./js/count2')
-    .then((res) => {
-      console.log('log--->ok', res.default(3, 5))
+  // import('./js/count2')
+  //   .then((res) => {
+  //     console.log('log--->ok', res.default(3, 5))
+  //   })
+  //   .catch((err) => {
+  //     console.log('log--->no')
+  //   })
+
+  import('./js/math')
+    .then(({ mul }) => {
+      console.log('log--->ok', mul(3, 5))
     })
     .catch((err) => {
       console.log('log--->no')
