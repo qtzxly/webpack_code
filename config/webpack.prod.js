@@ -31,11 +31,16 @@ function getStyleLoader(pre = null) {
 }
 
 module.exports = {
-  entry: './src/main.js',
+  // entry: './src/main.js',
+  entry: {
+    app: './src/app.js',
+    main: './src/main.js'
+  },
   output: {
     // 绝对路径。 __dirname：当前文件夹路径
     path: path.resolve(__dirname, '../dist'),
-    filename: 'static/js/main.js',
+    // filename: 'static/js/main.js',
+    filename: 'static/js/[name].js',
     // 打包前删除path目录
     clean: true
   },
