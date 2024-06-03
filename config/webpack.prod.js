@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const TerserWebpackPlugin = require('terser-webpack-plugin')
+const PreloadWebpackPlugin = require('@vue/preload-webpack-plugin')
 
 // const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin')
 // const { extendDefaultPlugins } = require('svgo')
@@ -129,6 +130,11 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'static/css/[name].css',
       chunkFilename: 'static/css/[name].chunk.css'
+    }),
+    new PreloadWebpackPlugin({
+      // rel: 'preload', // preload兼容性更好
+      // as: 'script'
+      rel: 'prefetch' // prefetch兼容性更差
     })
     // new CssMinimizerPlugin(),
     // new TerserWebpackPlugin({
