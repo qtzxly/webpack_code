@@ -42,9 +42,11 @@ module.exports = {
     path: path.resolve(__dirname, '../dist'),
     // filename: 'static/js/main.js',
     // 入口文件输出的文件名
-    filename: 'static/js/[name].js',
+    // filename: 'static/js/[name].js',
+    filename: 'static/js/[name].[contenthash:8].js',
     // 其他文件输出的文件名
-    chunkFilename: 'static/js/[name].chunk.js',
+    // chunkFilename: 'static/js/[name].chunk.js',
+    chunkFilename: 'static/js/[name].[contenthash:8].chunk.js',
     assetModuleFilename: 'static/media/[name].[hash:10][ext][query]',
     // 打包前删除path目录
     clean: true
@@ -128,8 +130,10 @@ module.exports = {
       template: path.resolve(__dirname, '../public/index.html')
     }),
     new MiniCssExtractPlugin({
-      filename: 'static/css/[name].css',
-      chunkFilename: 'static/css/[name].chunk.css'
+      // filename: 'static/css/[name].css',
+      // chunkFilename: 'static/css/[name].chunk.css'
+      filename: 'static/css/[name].[contenthash:8].css',
+      chunkFilename: 'static/css/[name].[contenthash:8].chunk.css'
     }),
     new PreloadWebpackPlugin({
       // rel: 'preload', // preload兼容性更好
@@ -180,6 +184,26 @@ module.exports = {
         //   reuseExistingChunk: true
         // }
       }
+    },
+    // 提取runtime文件
+    /*  问题：
+当我们修改 math.js 文件再重新打包的时候，因为 contenthash 原因，math.js 文件 hash 值发生了变化（这是正常的）。
+
+但是 main.js 文件的 hash 值也发生了变化，这会导致 main.js 的缓存失效。明明我们只修改 math.js, 为什么 main.js 也会变身变化呢？
+
+原因：
+
+更新前：math.xxx.js, main.js 引用的 math.xxx.js
+更新后：math.yyy.js, main.js 引用的 math.yyy.js, 文件名发生了变化，间接导致 main.js 也发生了变化
+解决：
+
+将 hash 值单独保管在一个 runtime 文件中。
+
+我们最终输出三个文件：main、math、runtime。当 math 文件发送变化，变化的是 math 和 runtime 文件，main 不变。
+
+runtime 文件只保存文件的 hash 值和它们与文件关系，整个文件体积就比较小，所以变化重新请求的代价也小。 */
+    runtimeChunk: {
+      name: (entrypoint) => `runtime~${entrypoint.name}` // runtime文件命名规则
     },
     minimizer: [
       new CssMinimizerPlugin(),
